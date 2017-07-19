@@ -9,7 +9,7 @@ to it.
 
 Signals are mapped by passing `SRC:DST` flags before the `--` separator, where
 *SRC* is the signal to trap in the parent process and *DST* is the signal to
-trap in the subprocess. So, `INT:TERM` will trap an interrupt signal to the
+send to the subprocess. So, `INT:TERM` will trap an interrupt signal to the
 parent process and send a terminate signal to the subprocess (the *CMD*).
 
 In addition, a signal can be discarded by specifying `SRC:-`, where *DST* is
