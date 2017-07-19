@@ -58,12 +58,17 @@ func main() {
 		usage(1, "missing command")
 	}
 
-	traps, cmd := argv[:partition], argv[partition+1:]
+	toremap, cmd := argv[:partition], argv[partition+1:]
 
+	// Trap all known signals
 	trap := make(chan os.Signal, 1)
+	for _, signame := range traps {
+		signal.Notify(trap, signame)
+	}
+
 	remap := map[os.Signal]syscall.Signal{}
 	swallows := map[os.Signal]struct{}{}
-	for _, t := range traps {
+	for _, t := range toremap {
 		p := strings.SplitN(t, ":", 2)
 		if len(p) != 2 {
 			usage(1, "invalid signal trap (must be SIG:SIG or SIG:-)")
