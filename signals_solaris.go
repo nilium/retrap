@@ -1,0 +1,52 @@
+// +build solaris
+
+package main
+
+import "syscall"
+
+// Signal names to integers
+var traps = map[string]syscall.Signal{
+	"abrt":    syscall.Signal(0x06),
+	"alrm":    syscall.Signal(0x0e),
+	"bus":     syscall.Signal(0x0a),
+	"cancel":  syscall.Signal(0x24),
+	"chld":    syscall.Signal(0x12),
+	"cld":     syscall.Signal(0x12),
+	"cont":    syscall.Signal(0x19),
+	"emt":     syscall.Signal(0x07),
+	"fpe":     syscall.Signal(0x08),
+	"freeze":  syscall.Signal(0x22),
+	"hup":     syscall.Signal(0x01),
+	"ill":     syscall.Signal(0x04),
+	"int":     syscall.Signal(0x02),
+	"io":      syscall.Signal(0x16),
+	"iot":     syscall.Signal(0x06),
+	"jvm1":    syscall.Signal(0x27),
+	"jvm2":    syscall.Signal(0x28),
+	"kill":    syscall.Signal(0x09),
+	"lost":    syscall.Signal(0x25),
+	"lwp":     syscall.Signal(0x21),
+	"pipe":    syscall.Signal(0x0d),
+	"poll":    syscall.Signal(0x16),
+	"prof":    syscall.Signal(0x1d),
+	"pwr":     syscall.Signal(0x13),
+	"quit":    syscall.Signal(0x03),
+	"segv":    syscall.Signal(0x0b),
+	"stop":    syscall.Signal(0x17),
+	"sys":     syscall.Signal(0x0c),
+	"term":    syscall.Signal(0x0f),
+	"thaw":    syscall.Signal(0x23),
+	"trap":    syscall.Signal(0x05),
+	"tstp":    syscall.Signal(0x18),
+	"ttin":    syscall.Signal(0x1a),
+	"ttou":    syscall.Signal(0x1b),
+	"urg":     syscall.Signal(0x15),
+	"usr1":    syscall.Signal(0x10),
+	"usr2":    syscall.Signal(0x11),
+	"vtalrm":  syscall.Signal(0x1c),
+	"waiting": syscall.Signal(0x20),
+	"winch":   syscall.Signal(0x14),
+	"xcpu":    syscall.Signal(0x1e),
+	"xfsz":    syscall.Signal(0x1f),
+	"xres":    syscall.Signal(0x26),
+}
