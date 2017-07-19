@@ -1,3 +1,18 @@
+// Command retrap is a small program that spawns a subprocess and forwards remapped
+// signals to it.
+//
+// Usage: retrap [SRC:DST] [SRC:-] -- CMD [ARG...]
+//
+// Signals are mapped by passing `SRC:DST` flags before the `--` separator, where
+// *SRC* is the signal to trap in the parent process and *DST* is the signal to
+// trap in the subprocess. So, `INT:TERM` will trap an interrupt signal to the
+// parent process and send a terminate signal to the subprocess (the *CMD*).
+//
+// In addition, a signal can be discarded by specifying `SRC:-`, where *DST* is
+// a hyphen. For example, if `INT:-` were passed, the parent process would trap and
+// discard interrupt signals.
+//
+// By default, all signals are sent to the subprocess unless mapped.
 package main
 
 import (
