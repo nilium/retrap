@@ -31,7 +31,7 @@ func usage(ec int, args ...interface{}) {
 	if len(args) > 0 {
 		fmt.Fprint(os.Stderr, fmt.Sprint(args...), "\n")
 	}
-	fmt.Fprintln(os.Stderr, "USAGE: retrap [SRC:DST] [SRC:-] -- CMD [ARGS...]")
+	fmt.Fprintln(os.Stderr, "USAGE: retrap [SRC:DST] [SRC:-] -- CMD [ARG...]")
 	os.Exit(ec)
 }
 
