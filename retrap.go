@@ -59,6 +59,11 @@ func main() {
 		usage(2)
 	}
 
+	cwd, err := os.Getwd()
+	if err != nil {
+		fatal("cannot get working directory: ", err)
+	}
+
 	partition := -1
 	for i, v := range argv {
 		if v == "-help" || v == "--help" || v == "-h" {
@@ -124,6 +129,7 @@ func main() {
 		},
 		Sys: procattr,
 		Env: os.Environ(),
+		Dir: cwd,
 	}
 	var pid int
 	if pid, err = syscall.ForkExec(p, cmd, &attr); err != nil {
