@@ -123,6 +123,7 @@ func main() {
 			os.Stderr.Fd(),
 		},
 		Sys: procattr,
+		Env: os.Environ(),
 	}
 	var pid int
 	if pid, err = syscall.ForkExec(p, cmd, &attr); err != nil {
