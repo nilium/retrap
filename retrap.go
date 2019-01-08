@@ -74,6 +74,9 @@ func main() {
 	}
 
 	toremap, cmd := argv[:partition], argv[partition+1:]
+	if len(cmd) == 0 {
+		usage(1, "missing command")
+	}
 
 	// Trap all known signals
 	trap := make(chan os.Signal, 1)
