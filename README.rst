@@ -2,7 +2,7 @@ retrap
 ------
 ::
 
-    retrap [SRC:DST] [SRC:-] -- CMD [ARG...]
+    retrap [-r] [SRC:DST] [SRC:-] -- CMD [ARG...]
 
 retrap is a small program that spawns a subprocess and forwards remapped signals
 to it.
@@ -29,5 +29,8 @@ will ignore SIGPIPE, simply forwarding that on to its subprocess.
 
 The subprocess receives the parent process's standard input, output, and error
 file descriptors.
+
+The `-r` flag can be passed inside the signal list to make retrap act as
+subreaper for orphaned child processes.
 
 .. vim: set ft=rst tw=80 sw=4 ts=4 et :

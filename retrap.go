@@ -31,7 +31,7 @@ func usage(ec int, args ...interface{}) {
 	if len(args) > 0 {
 		fmt.Fprint(os.Stderr, fmt.Sprint(args...), "\n")
 	}
-	fmt.Fprintln(os.Stderr, "USAGE: retrap [SRC:DST] [SRC:-] -- CMD [ARG...]")
+	fmt.Fprintln(os.Stderr, "USAGE: retrap [-r] [SRC:DST] [SRC:-] -- CMD [ARG...]")
 	os.Exit(ec)
 }
 
@@ -64,23 +64,32 @@ func main() {
 		fatal("cannot get working directory: ", err)
 	}
 
-	partition := -1
+	var cmd []string
+	subreaper := false
+	toremap := make([]string, 0, len(argv))
+parseArgs:
 	for i, v := range argv {
-		if v == "-help" || v == "--help" || v == "-h" {
+		switch v {
+		case "-help", "-h", "--help":
 			usage(2)
-		}
-		if v == "--" {
-			partition = i
-			break
+		case "-r":
+			subreaper = true
+		case "--":
+			cmd = argv[i+1:]
+			break parseArgs
+		default:
+			toremap = append(toremap, v)
 		}
 	}
-	if partition == -1 {
+
+	if len(cmd) == 0 {
 		usage(1, "missing command")
 	}
 
-	toremap, cmd := argv[:partition], argv[partition+1:]
-	if len(cmd) == 0 {
-		usage(1, "missing command")
+	if subreaper {
+		if err := setSubreaper(); err != nil {
+			usage(1, err)
+		}
 	}
 
 	// Trap all known signals
@@ -139,13 +148,13 @@ func main() {
 	// Forward signals after remapping
 	go func() {
 		for s := range trap {
-			if _, ok := swallows[s]; ok {
+			if _, ok := swallows[s]; ok || s == unix.SIGCHLD {
 				continue
 			} else if s2, ok := remap[s]; ok {
 				s = s2
 			}
 			if sig, ok := s.(syscall.Signal); ok {
-				unix.Kill(pid, sig)
+				unix.Kill(-pid, sig)
 			}
 		}
 	}()
